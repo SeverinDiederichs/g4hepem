@@ -38,6 +38,10 @@ public:
   // Control verbosity (0/1) (propagated to the G4HepEmRuManager)
   void SetVerbose(G4int verbose);
 
+  // Rebinds the random engine to the currently used engine by the thread
+  // Needed if the random engine was swapped after construction of the HepEm TM
+  void RebindG4RandomEngine();
+
   // Returns the vector of e-/e+ G4HepEmNoProcess pointers used only to set a
   // creator and step limiter G4VProcess of the G4Step with an appropriate
   // name and EM process type.

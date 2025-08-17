@@ -33,6 +33,9 @@ public:
   G4HepEmRandomEngine(void *object)
     : fObject(object), fIsGauss(false), fGauss(0.) { }
 
+  G4HepEmHostDevice
+  void SetObject(void* p) { fObject = p; }
+
   /** Return a random number uniformly distributed between 0 and 1.
    */
   G4HepEmHostDevice
