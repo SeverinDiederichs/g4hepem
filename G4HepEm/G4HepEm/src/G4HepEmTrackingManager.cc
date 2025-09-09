@@ -150,6 +150,13 @@ void G4HepEmTrackingManager::SetVerbose(G4int verbose) {
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
+void G4HepEmTrackingManager::RebindG4RandomEngine() {
+  fRandomEngine->SetObject(G4Random::getTheEngine());
+  fRandomEngine->DiscardGauss();
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
 void G4HepEmTrackingManager::BuildPhysicsTable(const G4ParticleDefinition &part) {
   if (&part == G4Electron::Definition()) {
     int particleID = 0;
