@@ -331,7 +331,6 @@ bool G4HepEmTrackingManager::TrackElectron(G4Track *aTrack) {
   // tracking manager. This call also always discards the other generated
   // Gaussian number to play it safe.
   RebindG4RandomEngine();
-  G4HepEmRandomEngine *rnge = theTLData->GetRNGEngine();
 
   // Pull data structures into local variables.
   G4HepEmData *theHepEmData = fRunManager->GetHepEmData();
@@ -438,7 +437,7 @@ bool G4HepEmTrackingManager::TrackElectron(G4Track *aTrack) {
     // Sample the `number-of-interaction-left`
     for (int ip=0; ip<4; ++ip) {
       if (thePrimaryTrack->GetNumIALeft(ip)<=0.) {
-        thePrimaryTrack->SetNumIALeft(-G4HepEmLog(rnge->flat()), ip);
+        thePrimaryTrack->SetNumIALeft(-G4HepEmLog(fRandomEngine->flat()), ip);
       }
     }
     // True distance to discrete interaction.
@@ -455,7 +454,8 @@ bool G4HepEmTrackingManager::TrackElectron(G4Track *aTrack) {
 
     do {
       // Possibly true step limit of MSC, and conversion to geometrical step length.
-      G4HepEmElectronManager::HowFarToMSC(theHepEmData, theHepEmPars, theElTrack, rnge);
+      G4HepEmElectronManager::HowFarToMSC(theHepEmData, theHepEmPars,
+                                          theElTrack, fRandomEngine);
       if (thePrimaryTrack->GetWinnerProcessIndex() != -2) {
         // If MSC did not limit the step, exit the loop after this iteration.
         continueStepping = false;
@@ -527,7 +527,8 @@ bool G4HepEmTrackingManager::TrackElectron(G4Track *aTrack) {
           }
 
           // === 4. Sample MSC direction change and displacement.
-          G4HepEmElectronManager::SampleMSC(theHepEmData, theHepEmPars, theElTrack, rnge);
+          G4HepEmElectronManager::SampleMSC(theHepEmData, theHepEmPars,
+                                            theElTrack, fRandomEngine);
 
           const double *pdir = thePrimaryTrack->GetDirection();
           postStepPoint.SetMomentumDirection(
@@ -612,7 +613,8 @@ bool G4HepEmTrackingManager::TrackElectron(G4Track *aTrack) {
       // If not already stopped, restore the pre-step energy and sample loss
       // fluctuations.
       theElTrack->SetPreStepEKin(preStepEkin, preStepLogEkin);
-      stopped = G4HepEmElectronManager::SampleLossFluctuations(theHepEmData, theHepEmPars, theElTrack, rnge);
+      stopped = G4HepEmElectronManager::SampleLossFluctuations(
+          theHepEmData, theHepEmPars, theElTrack, fRandomEngine);
     }
 
     // ATLAS XTR RELATED:
