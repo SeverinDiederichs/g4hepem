@@ -57,24 +57,24 @@ G4bool G4HepEmWoodcockHelper::Initialize(std::vector<std::string>& wdtRegionName
       // Iterate the root logical volumes of this region.
       // Find and store their solid and the heaviest material within each
       int numRootLVolume = wdtRegion->GetNumberOfRootVolumes();
-      // std::cout << "G4HepEmWoodcockHelper::Initialize() Woodcock region = "
-      //          << wdtRegionName << " was found with "
-      //          << numRootLVolume << " root logical volumes."
-      //          << std::endl;
+      std::cout << "G4HepEmWoodcockHelper::Initialize() Woodcock region = "
+               << wdtRegionName << " was found with "
+               << numRootLVolume << " root logical volumes."
+               << std::endl;
       std::vector<G4LogicalVolume*>::const_iterator itrLV = wdtRegion->GetRootLogicalVolumeIterator();
       for (int ilv = 0; ilv<numRootLVolume; ++ilv) {
         G4LogicalVolume* rootLogVol = (*itrLV);
-        // std::cout << " The [ " << ilv << " ]-th root logical volume is "
-        //          << rootLogVol->GetName() << std::endl;
+        std::cout << " The [ " << ilv << " ]-th root logical volume is "
+                 << rootLogVol->GetName() << std::endl;
         G4double maxDensity = -1.0;
         G4Material*  wdtMat = nullptr;
         // find the material with maximum density in this root logical volume branch
         FindWDTMaterial(rootLogVol, maxDensity, &wdtMat);
         G4MaterialCutsCouple* wdtCouple = wdtRegion->FindCouple(wdtMat);
-        // std::cout << " The heaviest material in this branch is " << wdtMat->GetName()
-        //          << " wdtCouple indx = " << wdtCouple->GetIndex()
-        //          << " wdTMat name = " << wdtMat->GetName()
-        //          << std::endl;
+        std::cout << " The heaviest material in this branch is " << wdtMat->GetName()
+                 << " wdtCouple indx = " << wdtCouple->GetIndex()
+                 << " wdTMat name = " << wdtMat->GetName()
+                 << std::endl;
         // Create a `WDTDataPerRootLogVol`structure for this root logical volume
         // set all required fields and store in the map indexed(key) by the log. vol. ID
         const int hepEmIMC = hepEmMatCutData->fG4MCIndexToHepEmMCIndex[wdtCouple->GetIndex()];
@@ -83,9 +83,9 @@ G4bool G4HepEmWoodcockHelper::Initialize(std::vector<std::string>& wdtRegionName
         ++itrLV;
       }
     } else {
-      // std::cout << "G4HepEmWoodcockHelper::Initialize() Woodcock region = "
-      //          << wdtRegionName << " was NOT found!"
-      //          << std::endl;
+      std::cout << "G4HepEmWoodcockHelper::Initialize() Woodcock region = "
+               << wdtRegionName << " was NOT found!"
+               << std::endl;
     }
   }
   //
