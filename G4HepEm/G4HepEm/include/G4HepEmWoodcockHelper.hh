@@ -55,6 +55,13 @@ public:
     // post step points and interaction can only happen at the post step point if any).
     G4bool KeepTracking(const struct G4HepEmData* theHepEmData, G4HepEmGammaTrack* theGammaTrack, G4Track& aTrack);
 
+    // Returns whether the region for the given region index is using woodcock tracking
+    G4bool IsWDTRegion(G4int regionId) const;
+
+    // For a given region index with Woodcock tracking and root logical volume index, 
+    // this function returns the G4HepEm mat-cut index of that volume if it is indeed 
+    // a root logical volume of a Woodcock tracking region, -1 otherwise 
+    G4int GetWDTCoupleHepEmIndex(G4int regionId, G4int logicalVolumeId) const;
 
 private:
 
